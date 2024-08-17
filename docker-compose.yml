@@ -1,0 +1,18 @@
+version: "3.8"
+
+services: 
+  postgres:
+    image: postgres:16.4
+    container_name: db_gestao_cursos
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: db_gestao_cursos
+    ports:
+      - "5432:5432"
+    volumes:
+      - data_postgres:/var/lib/postgresql/data
+
+volumes:
+  data_postgres:
+    driver: local
