@@ -24,7 +24,7 @@ public class CreateUserUseCase {
 
     // SOLID 
     // Single Responsability Principle 
-    public String execute(CreateUserRequest user) {
+    public String execute(CreateUserRequest user) throws ValidationException {
 
         // Dados obrigatórios 
         if (user.getName()
