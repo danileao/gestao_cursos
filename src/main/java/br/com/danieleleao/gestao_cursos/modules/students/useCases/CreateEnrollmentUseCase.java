@@ -22,7 +22,7 @@ public class CreateEnrollmentUseCase {
     @Autowired
     private EnrollmentRepository enrollmentRepository;
 
-    public void execute(UUID courseId, UUID studentId) throws Exception {
+    public UUID execute(UUID courseId, UUID studentId) throws Exception {
         // Validar student
         var student = this.userRepository.findById(studentId);
 
@@ -44,7 +44,8 @@ public class CreateEnrollmentUseCase {
         }
 
         var enrollmentEntity = EnrollmentEntity.builder().courseId(courseId).studentId(studentId).build();
-        this.enrollmentRepository.save(enrollmentEntity);
+        enrollmentEntity = this.enrollmentRepository.save(enrollmentEntity);
+        return enrollmentEntity.getId();
     }
 
 }
