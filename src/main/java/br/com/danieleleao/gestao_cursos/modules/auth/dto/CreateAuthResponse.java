@@ -12,6 +12,4 @@ public class CreateAuthResponse {
     private String acess_token;
     private Date expires_in;
     private Date created_at;
-
-
 }
