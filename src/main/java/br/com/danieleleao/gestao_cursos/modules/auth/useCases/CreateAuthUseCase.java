@@ -29,7 +29,7 @@ public class CreateAuthUseCase {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public CreateAuthResponse execute(CreateAuthRequest createAuthRequest) {
+    public CreateAuthResponse execute(CreateAuthRequest createAuthRequest, RoleUser roleUser) {
 
         // Verificar se email existe
         var user = this.userRepository.findByEmail(createAuthRequest.getEmail());
@@ -38,7 +38,7 @@ public class CreateAuthUseCase {
             throw new UsernameNotFoundException("Email ou senha incorretos");
         }
 
-        if (!user.get().getRole().equals(RoleUser.PROFESSOR)) {
+        if (!user.get().getRole().equals(roleUser)) {
             throw new UsernameNotFoundException("Email ou senha incorretos");
         }
 
@@ -58,7 +58,7 @@ public class CreateAuthUseCase {
         SecretKey key = Keys.hmacShaKeyFor("secret@3918FORTEsecret@3918FORTE".getBytes());
 
         Map<String, String> claims = new HashMap<>();
-        claims.put("roles", RoleUser.PROFESSOR.toString());
+        claims.put("roles", roleUser.toString());
 
         String token = Jwts.builder()
                 .subject(user.get().getId().toString())
