@@ -3,6 +3,8 @@ package br.com.danieleleao.gestao_cursos.modules.auth.useCases;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.crypto.SecretKey;
 
@@ -12,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.danieleleao.gestao_cursos.modules.auth.dto.CreateAuthRequest;
+import br.com.danieleleao.gestao_cursos.modules.auth.dto.CreateAuthResponse;
 import br.com.danieleleao.gestao_cursos.modules.users.UserRepository;
 import br.com.danieleleao.gestao_cursos.modules.users.entities.RoleUser;
 import io.jsonwebtoken.Jwts;
@@ -26,7 +29,7 @@ public class CreateAuthUseCase {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public String execute(CreateAuthRequest createAuthRequest) {
+    public CreateAuthResponse execute(CreateAuthRequest createAuthRequest) {
 
         // Verificar se email existe
         var user = this.userRepository.findByEmail(createAuthRequest.getEmail());
@@ -54,14 +57,23 @@ public class CreateAuthUseCase {
 
         SecretKey key = Keys.hmacShaKeyFor("secret@3918FORTEsecret@3918FORTE".getBytes());
 
+        Map<String, String> claims = new HashMap<>();
+        claims.put("roles", RoleUser.PROFESSOR.toString());
+
         String token = Jwts.builder()
                 .subject(user.get().getId().toString())
                 .issuer("gestao_cursos")
                 .issuedAt(Date.from(issuedAt))
                 .expiration(Date.from(expiresIn))
+                .claims(claims)
                 .signWith(key)
                 .compact();
-        return token;
+
+        return CreateAuthResponse.builder()
+                .acess_token(token)
+                .created_at(Date.from(issuedAt))
+                .expires_in(Date.from(expiresIn))
+                .build();
     }
 
 }

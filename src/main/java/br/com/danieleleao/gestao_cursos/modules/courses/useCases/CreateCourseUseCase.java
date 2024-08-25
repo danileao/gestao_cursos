@@ -1,5 +1,7 @@
 package br.com.danieleleao.gestao_cursos.modules.courses.useCases;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +20,9 @@ public class CreateCourseUseCase {
     @Autowired
     private UserRepository userRepository;
 
-    public String execute(CreateCourseRequest createCourseRequest) throws Exception {
+    public String execute(CreateCourseRequest createCourseRequest, String instructorId) throws Exception {
 
-        if (!userRepository.existsById(createCourseRequest.getInstructorId())) {
+        if (!userRepository.existsById(UUID.fromString(instructorId))) {
             throw new Exception("Professor(a) não encontrado");
         }
 
@@ -31,7 +33,7 @@ public class CreateCourseUseCase {
         CourseEntity courseEntity = CourseEntity.builder()
                 .description(createCourseRequest.getDescription())
                 .title(createCourseRequest.getTitle())
-                .instructorId(createCourseRequest.getInstructorId())
+                .instructorId(UUID.fromString(instructorId))
                 .build();
 
         courseEntity = this.courseRepository.save(courseEntity);

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.danieleleao.gestao_cursos.exceptions.ValidationException;
 import br.com.danieleleao.gestao_cursos.modules.courses.dto.CreateCourseRequest;
 import br.com.danieleleao.gestao_cursos.modules.courses.useCases.CreateCourseUseCase;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/courses")
@@ -20,9 +21,10 @@ public class CourseController {
     private CreateCourseUseCase createCourseUseCase;
 
     @PostMapping("/")
-    public ResponseEntity<?> create(@RequestBody CreateCourseRequest createCourseRequest) {
+    public ResponseEntity<?> create(HttpServletRequest request, @RequestBody CreateCourseRequest createCourseRequest) {
+        String userId = request.getAttribute("userId").toString();
         try {
-            var result = this.createCourseUseCase.execute(createCourseRequest);
+            var result = this.createCourseUseCase.execute(createCourseRequest, userId);
             return ResponseEntity.ok(result);
         } catch (ValidationException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
