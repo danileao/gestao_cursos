@@ -1,10 +1,14 @@
 package br.com.danieleleao.gestao_cursos.config.security;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.crypto.SecretKey;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -32,10 +36,17 @@ public class SecurityFilter extends OncePerRequestFilter {
 
             try {
                 var resultToken = Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
+                var claims = resultToken.getPayload().get("roles");
+
+                // ROLE_PROFESSOR
+                // ROLE_ALUNO
+                List<GrantedAuthority> authorities = new ArrayList<>();
+                authorities.add(new SimpleGrantedAuthority("ROLE_" + claims.toString()));
+
                 var userId = resultToken.getPayload().getSubject();
                 request.setAttribute("userId", userId);
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                        resultToken.getPayload().getSubject(), null, null);
+                        resultToken.getPayload().getSubject(), null, authorities);
 
                 SecurityContextHolder.getContext().setAuthentication(auth);
             } catch (Exception e) {

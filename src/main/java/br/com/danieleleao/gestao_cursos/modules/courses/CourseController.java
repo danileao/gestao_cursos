@@ -3,6 +3,7 @@ package br.com.danieleleao.gestao_cursos.modules.courses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ public class CourseController {
     private CreateCourseUseCase createCourseUseCase;
 
     @PostMapping("/")
+    @PreAuthorize("hasRole('PROFESSOR')")
     public ResponseEntity<?> create(HttpServletRequest request, @RequestBody CreateCourseRequest createCourseRequest) {
         String userId = request.getAttribute("userId").toString();
         try {
