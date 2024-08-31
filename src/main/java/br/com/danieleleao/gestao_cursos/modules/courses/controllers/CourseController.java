@@ -1,4 +1,4 @@
-package br.com.danieleleao.gestao_cursos.modules.courses;
+package br.com.danieleleao.gestao_cursos.modules.courses.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

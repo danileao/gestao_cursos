@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.danieleleao.gestao_cursos.exceptions.ValidationException;
-import br.com.danieleleao.gestao_cursos.modules.courses.CourseRepository;
 import br.com.danieleleao.gestao_cursos.modules.courses.dto.CreateCourseRequest;
 import br.com.danieleleao.gestao_cursos.modules.courses.entities.CourseEntity;
+import br.com.danieleleao.gestao_cursos.modules.courses.repositories.CourseRepository;
 import br.com.danieleleao.gestao_cursos.modules.users.UserRepository;
 
 @Service

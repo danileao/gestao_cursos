@@ -1,4 +1,4 @@
-package br.com.danieleleao.gestao_cursos.modules.courses;
+package br.com.danieleleao.gestao_cursos.modules.courses.repositories;
 
 import java.util.UUID;
 

@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.danieleleao.gestao_cursos.modules.courses.CourseRepository;
+import br.com.danieleleao.gestao_cursos.modules.courses.repositories.CourseRepository;
 import br.com.danieleleao.gestao_cursos.modules.students.EnrollmentRepository;
 import br.com.danieleleao.gestao_cursos.modules.students.entities.EnrollmentEntity;
 import br.com.danieleleao.gestao_cursos.modules.users.UserRepository;
