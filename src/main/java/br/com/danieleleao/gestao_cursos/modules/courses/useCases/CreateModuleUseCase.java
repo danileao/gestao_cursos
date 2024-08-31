@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.danieleleao.gestao_cursos.exceptions.ForbiddenException;
 import br.com.danieleleao.gestao_cursos.modules.courses.dto.CreateModuleRequest;
 import br.com.danieleleao.gestao_cursos.modules.courses.entities.ModuleEntity;
 import br.com.danieleleao.gestao_cursos.modules.courses.repositories.CourseRepository;
@@ -27,7 +28,8 @@ public class CreateModuleUseCase {
         }
 
         if (!course.get().getInstructorId().equals(instructorId)) {
-            throw new Exception("Curso não pertencente a esse instrutor");
+            throw new ForbiddenException();
+
         }
 
         // SALVAR
@@ -38,7 +40,15 @@ public class CreateModuleUseCase {
             throw new Exception("Order já cadastrada para um outro módulo");
         }
 
+        var titleExists = this.moduleRepository.findByCourseIdAndTitle(createModuleRequest.getCourseId(), createModuleRequest.getTitle());
+
+        if (titleExists.isPresent()) {
+            throw new Exception("Título já existente para esse curso!");
+        }
+ 
+        
         var moduleEntity = ModuleEntity.builder()
+                .title(createModuleRequest.getTitle())
                 .courseId(createModuleRequest.getCourseId())
                 .description(createModuleRequest.getDescription())
                 .order(createModuleRequest.getOrder())

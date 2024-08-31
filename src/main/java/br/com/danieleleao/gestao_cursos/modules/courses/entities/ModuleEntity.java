@@ -19,8 +19,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "modules")
+@Entity(name = "modules")
+@Table
 @Data
 @Builder
 @AllArgsConstructor
@@ -35,10 +35,11 @@ public class ModuleEntity {
 
     private String description;
 
+    @Column(name = "order_number")
     private Integer order;
 
     @ManyToOne
-    @JoinColumn(name = "couse_id", updatable = false, insertable = false)
+    @JoinColumn(name = "course_id", updatable = false, insertable = false)
     private CourseEntity course;
 
     @Column(name = "course_id")

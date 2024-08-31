@@ -11,4 +11,6 @@ public interface ModuleRepository extends JpaRepository<ModuleEntity, UUID> {
 
     Optional<ModuleEntity> findByCourseIdAndOrder(UUID courseID, Integer order);
 
+    Optional<ModuleEntity> findByCourseIdAndTitle(UUID courseID, String title);
+
 }
