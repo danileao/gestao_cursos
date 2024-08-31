@@ -53,7 +53,7 @@ public class CreateAuthUseCase {
 
         //Gerar o token e retornar
         var issuedAt = Instant.now();
-        var expiresIn = issuedAt.plus(Duration.ofMinutes(3));
+        var expiresIn = issuedAt.plus(Duration.ofMinutes(30));
 
         SecretKey key = Keys.hmacShaKeyFor("secret@3918FORTEsecret@3918FORTE".getBytes());
 

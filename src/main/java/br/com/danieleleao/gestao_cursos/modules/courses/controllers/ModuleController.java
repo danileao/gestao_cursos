@@ -15,6 +15,7 @@ import br.com.danieleleao.gestao_cursos.exceptions.ForbiddenException;
 import br.com.danieleleao.gestao_cursos.modules.courses.dto.CreateModuleRequest;
 import br.com.danieleleao.gestao_cursos.modules.courses.useCases.CreateModuleUseCase;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 @RequestMapping("/modules")
 @RestController()
@@ -25,7 +26,7 @@ public class ModuleController {
 
     @PostMapping("/")
     @PreAuthorize("hasRole('PROFESSOR')")
-    public ResponseEntity<?> create(HttpServletRequest request, @RequestBody CreateModuleRequest createModuleRequest) {
+    public ResponseEntity<?> create(HttpServletRequest request, @RequestBody @Valid CreateModuleRequest createModuleRequest) {
         String userId = request.getAttribute("userId").toString();
 
         try {
